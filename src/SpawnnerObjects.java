@@ -20,6 +20,8 @@ public class SpawnnerObjects{
     public ArrayList<Nave[]> projeteis = new ArrayList<Nave[]>();
     public ArrayList<Boss[]> enemy = new ArrayList<Boss[]>();
     public ArrayList<ObjectGame> objAstPeq = new ArrayList<ObjectGame>();
+    public ArrayList<ObjectGame> cenFoguete = new ArrayList<ObjectGame>();
+    public ArrayList<ObjectGame> cenMeteoro = new ArrayList<ObjectGame>();
     public ArrayList<ObjectGame> objAstMed = new ArrayList<ObjectGame>();
     public ArrayList<ObjectGame> objAstGra = new ArrayList<ObjectGame>();
     public ArrayList<ObjectGame> objBomba = new ArrayList<ObjectGame>();
@@ -36,10 +38,13 @@ public class SpawnnerObjects{
     boolean sec,sec2;
     private Timer timer;
     int timmer,timmer2;
+    int ceni1, ceni2;
     int limit, limit2 = 0, limit3;
     int height = 600, widht = 500;
     public int projetNaveX, projetNaveY,newProjetX,newProjetY,vidaBoss = 2250;
+    boolean cen1 , cen2;
     boolean verf1 = false, verf2 = false, verf3 = false,verf4 = false, verf5 = false, victory = true;
+    
     int bossX = 40,bossY = -150,astPeqX = 30, astPeqY = -40,astPeqX2 = 30, astPeqY2 = -40, laserX = -159, laserY  = -120
             , astMedX = 70, astMedY = -70, astGraX = 120, astGraY = -120, bombX = 200, bombY = -190
             , discX = -50, discY = 170;
@@ -49,11 +54,11 @@ public class SpawnnerObjects{
         if(victory){
             timmer++;}
         colision();
-        if(timmer % 1140 == 0){            
+        if(timmer % 40 == 0){            
             limit = (int)(Math.random()*4);
             objAstPeq.add(new ObjectGame(new Random().nextInt(490-10),astPeqY));
             objAstMed.add(new ObjectGame(new Random().nextInt(480-10),astMedY));
-            objAstGra.add(new ObjectGame(new Random().nextInt(470-20),astGraY));
+            objAstGra.add(new ObjectGame(new Random().nextInt(470-20),astGraY));                     
             if(limit == 0){
                 limit = 1;
             }}
@@ -104,7 +109,7 @@ public class SpawnnerObjects{
                         objDisco.remove(disco);
                     }
                 }bombPlant(); 
-            }if(timmer % 220 == 0){
+            }if(timmer % 4220 == 0){
                 //4220
                 limit3 = 1;
             }if(limit3 == 1){
@@ -140,17 +145,17 @@ public class SpawnnerObjects{
                         rightBoss = true;
                     }
                 }
-                if(timmer % 1140 == 0){                  
+                if(timmer % 40 == 0){                  
                     bossProjetil.add(new Boss(105+boss[0].getPositionX(), 100+boss[0].getPositionY()));
                     bossProjetil.add(new Boss(265+boss[0].getPositionX(), 100+boss[0].getPositionY()));
 
-                }if(timmer % 1160 == 0){                  
+                }if(timmer % 160 == 0){                  
                     bossProjetil.add(new Boss(60+boss[0].getPositionX(), 105+boss[0].getPositionY()));
                     bossProjetil.add(new Boss(310+boss[0].getPositionX(), 105+boss[0].getPositionY()));
                 }if(timmer % 220 == 0){
-                    bossLaser.add(new Boss(500+boss[0].getPositionX(), 150+boss[0].getPositionY()));
-                    //atirarLaser = true;                                       
-                    //sec = true;
+                    bossLaser.add(new Boss(120+boss[0].getPositionX(), 150+boss[0].getPositionY()));
+                    atirarLaser = true;                    
+                    sec = true;
                 }                              
                 }}if(disparouProjetil){
                 newProjetX = projetNaveX;
@@ -161,6 +166,40 @@ public class SpawnnerObjects{
             BossAtirarLaser();
             explosao();
             bossAtirarProjetil();
+            if(timmer % 530 == 0){
+                ceni1 = 1;
+                cenMeteoro.add(new ObjectGame(600,60));
+                cenMeteoro.add(new ObjectGame(600,20));
+                cenMeteoro.add(new ObjectGame(680,40));
+            }
+            if(timmer % 1075 == 0){
+                ceni2 = 2;
+                cenFoguete.add(new ObjectGame(-60,400)); 
+            }           
+            if(ceni1 == 1){
+                cen1 = true;
+            }
+            if(ceni2 == 2){
+                cen2 = true;
+            }
+            if(cen1){
+                for(int i = 0;i < cenMeteoro.size();i++){
+                    ObjectGame meteoro = cenMeteoro.get(i);
+                    cenMeteoro.get(i).movimentoMeteoro();
+                    if(meteoro.getPositionX() < -10){
+                        cenMeteoro.remove(meteoro);
+                    }
+                }
+            }
+            if(cen1){
+                for(int i = 0;i < cenFoguete.size();i++){
+                    ObjectGame foguete = cenFoguete.get(i);
+                    cenFoguete.get(i).movimentoFoguete();
+                    if(foguete.getPositionX() > widht){
+                        cenFoguete.remove(foguete);
+                    }
+                }
+            }
             if(morteBoss){
                 objExplosao.add(new ObjectGame(new Random().nextInt(400-40),new Random().nextInt(20-1)));
                 timer = new Timer();
@@ -262,10 +301,12 @@ public class SpawnnerObjects{
                 @Override
                 public void run() {
                     bossLaser.remove(laserBoss);
+                    sec2 = true;
                 }
             };
             timer.schedule(remove, tempo);
             sec = false;
+            sec2 = false;
             }
                 
         }
@@ -312,6 +353,18 @@ public class SpawnnerObjects{
                         objBomba.remove(bomba);
                     }
                 }
+    }
+    public void renderCenario(Graphics g){
+        for(int z = 0; z < cenFoguete.size();z++){
+            ObjectGame rec = cenFoguete.get(z);
+            rec.fogueteDimension(g);
+            rec.iconFoguete(g);
+        }
+        for(int t = 0; t < cenMeteoro.size();t++){
+            ObjectGame rec = cenMeteoro.get(t);
+            rec.meteoroDimension(g);
+            rec.iconMeteoro(g);
+        }
     }
     public void render(Graphics g){ 
         for(int z = 0; z < objAstPeq.size();z++){

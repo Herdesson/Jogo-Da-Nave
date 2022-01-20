@@ -22,6 +22,8 @@ public class Nave {
     public int poInicialNaveX = 300, poInicialNaveY = 500;
     public int poInicialTiroX = 300, poInicialTiroY = 490;
     public int positionHeartX = 380, positionHeartY = 0;
+    int damageProjetil = 10;
+    int vidaNave = 30;
     
     public Nave(){}
     public Nave(int x, int y){
@@ -34,11 +36,20 @@ public class Nave {
     public void setPositionY(int y){
         this.y = y;
     }
+    public void setVida(int vida){
+        this.vidaNave = vida;
+    }
     public int getPositionX(){
         return x;
     }
     public int getPositionY(){
         return y;
+    }
+    public int getVida(){
+        return vidaNave;
+    }
+    public int getDamage(){
+        return damageProjetil;
     }
     public void dimension(Graphics g){
         g.fillRect(x, y, 0, 0);

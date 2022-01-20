@@ -18,6 +18,8 @@ public class ObjectGame{
     int x,y;
     Image object;
     public int PoInicialAPX;
+    int vidaAstPeq = 10,vidaAstMed = 20,vidaAstGra = 30, vidaDisco = 10;
+    int damage = 10;
     public ObjectGame(){
     }  
     public ObjectGame(int x, int y){
@@ -30,11 +32,38 @@ public class ObjectGame{
     public void setPositionY(int y){
         this.y = y;
     }
+    public void setVidaAstPeq(int vida){
+        this.vidaAstPeq = vida;
+    }
+    public void setVidaAstMed(int vida){
+        this.vidaAstMed = vida;
+    }
+    public void setVidaAstGra(int vida){
+        this.vidaAstGra = vida;
+    }
+    public void setVidaDisco(int vida){
+        this.vidaDisco = vida;
+    }
     public int getPositionX(){
         return x;
     }
     public int getPositionY(){
         return y;
+    }
+    public int getDamage(){
+        return damage;
+    }
+    public int getVidaAstPeq(){
+        return vidaAstPeq;
+    }
+    public int getVidaAstMed(){
+        return vidaAstMed;
+    }
+    public int getVidaAstGra(){
+        return vidaAstGra;
+    }
+    public int getVidaDisco(){
+        return vidaDisco;
     }
     public void asteroidPequenoDimension(Graphics g){
         g.fillRect(x, y, 0, 0);
@@ -50,7 +79,16 @@ public class ObjectGame{
     }
     public void bombaDimension(Graphics g){
         g.fillRect(x, y, 0, 0);
-    }    
+    }
+    public void explosaoDimension(Graphics g){
+        g.fillRect(x, y, 0, 0);
+    }
+    public void fogueteDimension(Graphics g){
+        g.fillRect(x, y, 0, 0);
+    }
+    public void meteoroDimension(Graphics g){
+        g.fillRect(x, y, 0, 0);
+    }     
     public void iconAsteroidPequeno(Graphics g){
         URL url = ObjectGame.class.getResource("AsteroidePequenoProjeto.png");
         ImageIcon icon = new ImageIcon(url);
@@ -81,6 +119,24 @@ public class ObjectGame{
         object = icon.getImage();
         g.drawImage(object, x, y, null);
     }
+    public void iconExplosao(Graphics g){
+        URL url = ObjectGame.class.getResource("explosaoProjeto2.gif");
+        ImageIcon icon = new ImageIcon(url);
+        object = icon.getImage();
+        g.drawImage(object, x, y, null);
+    }
+    public void iconFoguete(Graphics g){
+        URL url = ObjectGame.class.getResource("foguetePaisagem2.gif");
+        ImageIcon icon = new ImageIcon(url);
+        object = icon.getImage();
+        g.drawImage(object, x, y, null);
+    }
+    public void iconMeteoro(Graphics g){
+        URL url = ObjectGame.class.getResource("Meteoro.gif");
+        ImageIcon icon = new ImageIcon(url);
+        object = icon.getImage();
+        g.drawImage(object, x, y, null);
+    }
     public void movimentoAstPeq(){
         y+=10;        
     }
@@ -95,5 +151,16 @@ public class ObjectGame{
     }
     public void movimentoBomba(){
         y+=3;
+    }
+    public void movimentoExplosao(){
+        y++;
+    }
+    public void movimentoMeteoro(){
+        x--;
+        y++;
+    }
+    public void movimentoFoguete(){
+        x++;
+        y--;
     }
 }

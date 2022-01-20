@@ -19,6 +19,9 @@ public class Boss {
     Image boss;
     Image tiro;
     Image laser;
+    int vidaBoss = 40;
+    int damageProjetil = 10, damageLaser = 30;
+    
     public Boss(){
     }
     public Boss(int x, int y){
@@ -31,11 +34,23 @@ public class Boss {
     public void setPositionY(int y){
         this.y = y;
     }
+    public void setVidaBoss(int vida){
+        this.vidaBoss = vida;
+    }
     public int getPositionX(){
         return x;
     }
     public int getPositionY(){
         return y;
+    }
+    public int getDamageProjetil(){
+        return damageProjetil;
+    }
+    public int getDamageLaser(){
+        return damageLaser;
+    }
+    public int getVidaBoss(){
+        return vidaBoss;
     }
     public void dimesionBoss(Graphics g){
         g.fillRect(x, y, 0, 0);
@@ -64,13 +79,9 @@ public class Boss {
         laser = icon.getImage();
         g.drawImage(laser, x, y, null);
     }
-    public void movimentoBossDireita(){
-        x+=3;
-    }
-    public void movimentoBossEsquerda(){
-        x-=3;
-    }
     public void movimentoTiro(){
         y+=7;
+    }public void movimentoBolaDeRaio(){
+        y+=15;
     }
 }
